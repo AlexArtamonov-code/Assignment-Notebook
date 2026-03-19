@@ -19,7 +19,7 @@ struct ContentView: View {
         AssignmentItem(course: "Science", description: "Atomic Bomb Lab", dueDate: Date())
     ]
     @State private var assignmentList = AssignmentList()
-    
+    @State private var showingAddView = false
     var body: some View {
         VStack {
             NavigationView {
@@ -29,10 +29,10 @@ struct ContentView: View {
                             Text(item.course)
                                 .font(.headline)
                                 .foregroundColor(.blue)
-
+                            
                             Text(item.description)
                                 .font(.body)
-
+                            
                             Text("Due: \(item.dueDate.formatted(date: .abbreviated, time: .omitted))")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
@@ -43,7 +43,20 @@ struct ContentView: View {
                 }
                 .navigationTitle("Assignment Notebook")
                 .toolbar {
-                    EditButton()
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        EditButton()
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showingAddView = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                    }
+                }
+                .sheet(isPresented: $showingAddView) {
+                    AddAssignmentView(assignmentList: assignmentList)
                 }
             }
         }
