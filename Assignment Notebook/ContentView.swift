@@ -21,14 +21,40 @@ struct ContentView: View {
     }
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            NavigationView {
+                List {
+                    ForEach(assignmentItems) { item in
+                        VStack(alignment: .leading) {
+                            Text(item.course)
+                                .font(.headline)
+                            Text(item.description)
+                            Text(item.dueDate, style: .date)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .onDelete(perform: deleteItem)
+                    .onMove(perform: moveItem)
+                }
+                .navigationTitle("Assignment Notebook")
+                .toolbar {
+                    EditButton()
+                }
+            }
         }
         .padding()
     }
+    func deleteItem(at offsets: IndexSet) {
+        assignmentItems.remove(atOffsets: offsets)
+    }
+    
+    func moveItem(from source: IndexSet, to destination: Int) {
+        assignmentItems.move(fromOffsets: source, toOffset: destination)
+    }
+
 }
+
+
 
 #Preview {
     ContentView()
