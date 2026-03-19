@@ -56,7 +56,7 @@ struct ContentView: View {
                     }
                 }
                 .sheet(isPresented: $showingAddView) {
-                    AddAssignmentView(assignmentList: assignmentList)
+                    AddAssignmentView(items: $assignmentList.items)
                 }
             }
         }

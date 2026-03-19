@@ -15,6 +15,7 @@ class AssignmentList: ObservableObject {
             save()
         }
     }
+    
     let saveKey = "AssignmentItems"
     
     init() {
@@ -22,11 +23,7 @@ class AssignmentList: ObservableObject {
            let decoded = try? JSONDecoder().decode([AssignmentItem].self, from: data) {
             items = decoded
         } else {
-            items = [
-                AssignmentItem(course: "Algebra", description: "Linear Equation", dueDate: Date()),
-                AssignmentItem(course: "History", description: "Civil War Paper", dueDate: Date()),
-                AssignmentItem(course: "Science", description: "Atomic Bomb Lab", dueDate: Date())
-            ]
+            items = []
         }
     }
     

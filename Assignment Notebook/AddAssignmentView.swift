@@ -10,11 +10,10 @@ import SwiftUI
 struct AddAssignmentView: View {
     
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var assignmentList: AssignmentList
     
+    @Binding var items: [AssignmentItem]   
     
     static let courses = ["Math", "Science", "History", "English", "Art"]
-    
     
     @State private var course = "Math"
     @State private var description = ""
@@ -37,13 +36,16 @@ struct AddAssignmentView: View {
             .navigationTitle("Add New Assignment")
             .toolbar {
                 Button("Save") {
+                    
                     let newItem = AssignmentItem(
                         course: course,
                         description: description,
                         dueDate: dueDate
                     )
                     
-                    assignmentList.items.append(newItem)
+                    
+                    items.append(newItem)
+                    
                     dismiss()
                 }
             }
