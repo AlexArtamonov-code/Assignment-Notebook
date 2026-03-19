@@ -6,33 +6,38 @@
 //
 
 import SwiftUI
-
+struct AssignmentItem: Identifiable, Codable {
+    var id = UUID()
+    var course: String
+    var description: String
+    var dueDate: Date
+}
 struct ContentView: View {
     @State private var assignmentItems = [
         AssignmentItem(course: "Algebra", description: "Linear Equation", dueDate: Date()),
         AssignmentItem(course: "History", description: "Civil War Paper", dueDate: Date()),
         AssignmentItem(course: "Science", description: "Atomic Bomb Lab", dueDate: Date())
     ]
-    struct AssignmentItem: Identifiable {
-        var id = UUID()
-        var course: String
-        var description: String
-        var dueDate: Date
-    }
+    @State private var assignmentList = AssignmentList()
+    
     var body: some View {
         VStack {
             NavigationView {
                 List {
                     ForEach(assignmentItems) { item in
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 5) {
                             Text(item.course)
                                 .font(.headline)
+                                .foregroundColor(.blue)
+
                             Text(item.description)
-                            Text(item.dueDate, style: .date)
+                                .font(.body)
+
+                            Text("Due: \(item.dueDate.formatted(date: .abbreviated, time: .omitted))")
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                         }
-                    }
+                        .padding(5)                    }
                     .onDelete(perform: deleteItem)
                     .onMove(perform: moveItem)
                 }
